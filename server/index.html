@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.1/socket.io.js"></script>
+<script>
+    const socket = io("http://127.0.0.1:3000", {
+        query: {
+            token: "helloworld"
+        }
+    });
+
+    socket.on("connect", () => {
+        console.log(socket.id + " connect...");
+    });
+
+    socket.on("disconnect", (reason) => {
+        console.log(reason);
+    })
+
+    socket.on("connect_error", error => {
+        alert(error);
+    });
+
+    socket.emit("chat", "hello", resp => {
+        console.log(resp);
+    });
+
+    /*
+     * 控制台输入 socket.emit("test", xxx）模拟消息发送，其他连接可接收到消息
+     */
+    socket.on("test", msg => {
+        console.log(msg);
+    });
+</script>
+</body>
+</html>
